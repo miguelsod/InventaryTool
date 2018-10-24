@@ -66,13 +66,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void nextActivity() {
 
         final RealmList<Warehouse> userWarehouseList = user.getWarehouseList();
-
 
         if (userWarehouseList.size() == 0) {
             // TODO: User does not have warehouse
@@ -99,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, WarehouseActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
