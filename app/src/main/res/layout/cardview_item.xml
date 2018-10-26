@@ -7,10 +7,10 @@
     android:layout_margin="10dp"
     android:fadingEdge="horizontal"
     app:cardCornerRadius="4dp"
-    app:cardElevation="@dimen/cardview_default_elevation">
+    app:cardElevation="4dp">
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/textViewWarehouseName"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
