@@ -2,11 +2,13 @@ package com.idbarcodesolutions.mainactivity.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -27,7 +29,7 @@ public class WarehouseActivity extends AppCompatActivity {
     private Realm realm;
     private RealmResults<Warehouse> warehouseList;
 
-    private Context context;
+    private FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -39,8 +41,10 @@ public class WarehouseActivity extends AppCompatActivity {
         // Get all the warehouseList
         warehouseList = realm.where(Warehouse.class).findAll();
 
-        // Bind RecyclerView
+        // Bind RecyclerView and FloatingActionButton
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewWarehouseList);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+
         // Set LinearLayoutManager
         mLayoutManager = new LinearLayoutManager(this);
 
@@ -48,7 +52,7 @@ public class WarehouseActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(warehouseList, R.layout.cardview_item, new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String name, int position) {
-                Toast.makeText(WarehouseActivity.this, "name", Toast.LENGTH_LONG).show();
+                Toast.makeText(WarehouseActivity.this, name, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -57,5 +61,13 @@ public class WarehouseActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        // Floating action button functionality
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(WarehouseActivity.this, "Toast from Floating Action Button", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements EMDKManager.EMDKL
             ScannerConfig scannerConfig = scanner.getConfig();
             scannerConfig.scanParams.decodeLEDTime = 800;
             scanner.setConfig(scannerConfig);
-        } catch (ScannerException e){
+        } catch (ScannerException e) {
             e.printStackTrace();
         }
     }
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements EMDKManager.EMDKL
         protected void onPostExecute(String result) {
             // Update the dataView EditText on UI thread with barcode data and
             // its label type
-            if(!result.isEmpty()){
+            if (!result.isEmpty()) {
                 if (dataLength++ > 50) {
                     // Clear the cache after 50 scans
                     dataView.getText().clear();

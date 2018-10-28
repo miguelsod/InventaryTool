@@ -53,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             textViewWarehouseName = itemView.findViewById(R.id.textViewWarehouseName);
         }
 
-        public void bind(final String name, final OnItemClickListener listener){
+        public void bind(final String name, final OnItemClickListener listener) {
             textViewWarehouseName.setText(name);
             // onClickListener for each item
             itemView.setOnClickListener(new View.OnClickListener() {

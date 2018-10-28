@@ -6,7 +6,7 @@ public class Product extends RealmObject {
     private String SKU;
     private int quantiy;
 
-    public Product(){
+    public Product() {
     }
 
     public Product(String SKU, int quantiy) {

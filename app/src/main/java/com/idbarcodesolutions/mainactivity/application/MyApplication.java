@@ -21,7 +21,7 @@ public class MyApplication extends android.app.Application {
         setUpRealmConfig();
 
         Realm realm = Realm.getDefaultInstance();
-        rightID = getIdByTable(realm, UserRight.class);
+        //rightID = getIdByTable(realm, UserRight.class);
         realm.close();
     }
 

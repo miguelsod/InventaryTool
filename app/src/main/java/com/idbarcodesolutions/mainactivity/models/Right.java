@@ -1,23 +1,19 @@
 package com.idbarcodesolutions.mainactivity.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Right extends RealmObject {
-    private String rightID;
+    @PrimaryKey
+    private int rightID;
 
-    public Right(){
+    public Right(){ }
 
-    }
-
-    public Right(String rightID) {
+    public Right(int rightID) {
         this.rightID = rightID;
     }
 
-    public String getRightID() {
+    public int getRightID() {
         return rightID;
-    }
-
-    public void setRightID(String rightID) {
-        this.rightID = rightID;
     }
 }

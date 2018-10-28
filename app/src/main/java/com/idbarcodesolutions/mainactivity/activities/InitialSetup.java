@@ -17,7 +17,7 @@ import com.idbarcodesolutions.mainactivity.models.Warehouse;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class InitialSetup extends AppCompatActivity{
+public class InitialSetup extends AppCompatActivity {
 
     // Get UI elements
     private EditText editTextUsername;
@@ -57,6 +57,7 @@ public class InitialSetup extends AppCompatActivity{
                     if (!password.isEmpty()) {
                         // Create new ADMIN user
                         final User user = new User("admin", password);
+                        user.setRight(new UserRight(user.getUserID(), User.ADMIN));
                         // Pass it to Realm db
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -72,7 +73,6 @@ public class InitialSetup extends AppCompatActivity{
                     } else {
                         Toast.makeText(InitialSetup.this, "Please, set your password", Toast.LENGTH_LONG).show();
                     }
-
                 }
             });
         }

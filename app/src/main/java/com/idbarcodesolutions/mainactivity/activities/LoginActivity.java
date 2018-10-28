@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // Declare UI elements Warehouse
     private EditText editTextWarehouseName;
-    private EditText editTextWarehouseQty;
     private Button buttonCreateWarehouse;
 
     // User handled
@@ -83,10 +82,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     view = viewToInflate;
                     editTextWarehouseName = (EditText) findViewById(R.id.editTextWarehouseName);
-                    editTextWarehouseQty = (EditText) findViewById(R.id.editTextWarehouseQty);
-                    int qty = Integer.parseInt(editTextWarehouseQty.getText().toString());
-                    if(!editTextWarehouseName.getText().toString().isEmpty() && qty >= 0){
-                        final Warehouse newWarehouse = new Warehouse(editTextWarehouseName.getText().toString(), qty);
+
+                    if (!editTextWarehouseName.getText().toString().isEmpty()) {
+                        final Warehouse newWarehouse = new Warehouse(editTextWarehouseName.getText().toString());
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {

@@ -8,12 +8,11 @@ public class Warehouse extends RealmObject {
     private String warehouseID;
     private int qty = 0;
 
-    public Warehouse(){
+    public Warehouse() {
     }
 
-    public Warehouse(String warehouseID, int qty) {
+    public Warehouse(String warehouseID) {
         this.warehouseID = warehouseID;
-        this.qty = qty;
     }
 
     public String getWarehouseID() {
