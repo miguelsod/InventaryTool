@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
 import com.idbarcodesolutions.mainactivity.models.User;
@@ -72,41 +70,14 @@ public class LoginActivity extends AppCompatActivity {
         final RealmList<Warehouse> userWarehouseList = user.getWarehouseList();
 
         if (userWarehouseList.size() == 0) {
-            // TODO: User does not have warehouse
-            final LayoutInflater inflater = getLayoutInflater();
-            final View viewToInflate = inflater.inflate(R.layout.create_new_warehouse, null);
-            setContentView(R.layout.create_new_warehouse);
-            buttonCreateWarehouse = (Button) findViewById(R.id.buttonCreateWarehouse);
-            buttonCreateWarehouse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    view = viewToInflate;
-                    editTextWarehouseName = (EditText) findViewById(R.id.editTextWarehouseName);
-
-                    if (!editTextWarehouseName.getText().toString().isEmpty()) {
-                        final Warehouse newWarehouse = new Warehouse(editTextWarehouseName.getText().toString());
-                        realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                userWarehouseList.add(newWarehouse);
-                                user.setWarehouseList(userWarehouseList);
-                                realm.copyToRealmOrUpdate(newWarehouse);
-                                realm.copyToRealmOrUpdate(user);
-                            }
-                        });
-
-                        Intent intent = new Intent(LoginActivity.this, WarehouseActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Please, enter a warehouse name", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            Intent intent = new Intent(LoginActivity.this, CreateWarehouse.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+//
         } else {
             // TODO: User has a warehouse
-            Intent intent = new Intent(LoginActivity.this, WarehouseActivity.class);
+            Intent intent = new Intent(LoginActivity.this, WarehouseList.class);
+            intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }

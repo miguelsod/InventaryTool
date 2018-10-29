@@ -21,11 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.WarehouseActivity"
-            android:label="@string/warehouseActivity"></activity>
+        <activity
+            android:name=".activities.WarehouseList"
+            android:label="@string/warehouseActivity" />
+        <activity android:name=".activities.CreateWarehouse"></activity>
     </application>
 
 </manifest>

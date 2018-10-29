@@ -1,26 +1,24 @@
 package com.idbarcodesolutions.mainactivity.activities;
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.idbarcodesolutions.mainactivity.R;
 import com.idbarcodesolutions.mainactivity.adapters.MyAdapter;
+import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class WarehouseActivity extends AppCompatActivity {
+public class WarehouseList extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -30,6 +28,8 @@ public class WarehouseActivity extends AppCompatActivity {
     private RealmResults<Warehouse> warehouseList;
 
     private FloatingActionButton floatingActionButton;
+    private User user;
+    private Bundle bundle;
 
 
     @Override
@@ -37,6 +37,9 @@ public class WarehouseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warehouse);
         realm = Realm.getDefaultInstance();
+
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
 
         // Get all the warehouseList
         warehouseList = realm.where(Warehouse.class).findAll();
@@ -52,7 +55,7 @@ public class WarehouseActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(warehouseList, R.layout.cardview_item, new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String name, int position) {
-                Toast.makeText(WarehouseActivity.this, name, Toast.LENGTH_LONG).show();
+                Toast.makeText(WarehouseList.this, name, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -66,7 +69,7 @@ public class WarehouseActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(WarehouseActivity.this, "Toast from Floating Action Button", Toast.LENGTH_LONG).show();
+
             }
         });
     }

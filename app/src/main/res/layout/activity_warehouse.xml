@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.WarehouseActivity">
+    tools:context=".activities.WarehouseList">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewWarehouseList"
@@ -15,12 +14,11 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
+        android:layout_height="105dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="36dp"
         android:backgroundTint="@color/colorPrimary"
         android:elevation="4dp"
         android:src="@android:drawable/ic_input_add" />

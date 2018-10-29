@@ -1,7 +1,5 @@
 package com.idbarcodesolutions.mainactivity.models;
 
-import android.widget.Toast;
-
 import com.idbarcodesolutions.mainactivity.application.MyApplication;
 
 import io.realm.RealmList;
@@ -28,6 +26,13 @@ public class User extends RealmObject {
         this.userID = MyApplication.userID.incrementAndGet();
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, UserRight right) {
+        this.userID = MyApplication.userID.incrementAndGet();
+        this.username = username;
+        this.password = password;
+        this.right = right;
     }
 
     public String getUsername() {
@@ -73,16 +78,29 @@ public class User extends RealmObject {
         this.right = right;
     }
 
-    public Warehouse createNewWarehouse(String name, User user) {
+    public Warehouse createNewWarehouse(String warehouseName, User user) {
         // Get the user's right
         UserRight right = user.getRight();
 
         // Check if user is able to create a new Warehouse
         // Only ADMIN user can create a new Warehouse
         if (right.getId_right() == User.ADMIN) { // TODO: CHANGE IT LATER TO VIP USER!!
-            Warehouse warehouse = new Warehouse(name);
+            Warehouse warehouse = new Warehouse(warehouseName);
             return warehouse;
+        } else {
+            return null;
         }
-        return null;
+    }
+
+    public User createNewUser(String name, String password, Warehouse warehouse, User parentUser) {
+        // Check if user is able to create a new user
+        if (parentUser.getRight().getId_right() == User.ADMIN) {
+            User newUser = new User(name, password);
+            RealmList<Warehouse> warehouseList = parentUser.getWarehouseList(); // Add the Administrator's default warehouse
+            warehouseList.add(warehouse);
+            return newUser;
+        } else {
+            return null;
+        }
     }
 }
