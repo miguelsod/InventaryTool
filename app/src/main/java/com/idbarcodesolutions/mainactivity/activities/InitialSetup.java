@@ -64,7 +64,7 @@ public class InitialSetup extends AppCompatActivity {
                             public void execute(Realm realm) {
                                 realm.copyToRealmOrUpdate(user);
                                 Intent intent = new Intent(InitialSetup.this, LoginActivity.class);
-                                intent.putExtra("username", "admin");
+                                intent.putExtra("username", user.getUsername());
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();

@@ -15,6 +15,7 @@ import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,12 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         // Get Realm instance
         realm = Realm.getDefaultInstance();
 
-        // Get extras
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-
-        editTextUsername.setText(username);
-
         // When user clicks on Login button
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,23 +54,21 @@ public class LoginActivity extends AppCompatActivity {
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
                 if (login(username, password)) {
-                    nextActivity();
+                    nextActivity(username);
                 }
             }
         });
     }
 
-    private void nextActivity() {
-
-        final RealmList<Warehouse> userWarehouseList = user.getWarehouseList();
-
-        if (userWarehouseList.size() == 0) {
+    private void nextActivity(String username) {
+        User user = realm.where(User.class).equalTo("username", username).findFirst();
+        final RealmResults<Warehouse> userWarehouseList = realm.where(Warehouse.class).findAll();
+        if(userWarehouseList != null && userWarehouseList.size() <= 0){
             Intent intent = new Intent(LoginActivity.this, CreateWarehouse.class);
+            intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-//
         } else {
-            // TODO: User has a warehouse
             Intent intent = new Intent(LoginActivity.this, WarehouseList.class);
             intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
