@@ -71,9 +71,10 @@ public class WarehouseList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(WarehouseList.this, user.getUsername(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(WarehouseList.this, CreateWarehouse.class);
+                Intent intent = new Intent(WarehouseList.this, UserActivity.class);
                 intent.putExtra("username", user.getUsername());
                 startActivity(intent);
+
             }
         });
     }

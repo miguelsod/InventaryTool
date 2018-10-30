@@ -1,5 +1,8 @@
 package com.idbarcodesolutions.mainactivity.application;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.UserRight;
 

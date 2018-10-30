@@ -26,7 +26,8 @@
         <activity
             android:name=".activities.WarehouseList"
             android:label="@string/warehouseActivity" />
-        <activity android:name=".activities.CreateWarehouse"></activity>
+        <activity android:name=".activities.CreateWarehouse" />
+        <activity android:name=".activities.UserActivity"></activity>
     </application>
 
 </manifest>

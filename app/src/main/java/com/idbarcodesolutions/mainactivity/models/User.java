@@ -1,5 +1,8 @@
 package com.idbarcodesolutions.mainactivity.models;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.idbarcodesolutions.mainactivity.application.MyApplication;
 
 import io.realm.RealmList;

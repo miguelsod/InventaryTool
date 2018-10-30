@@ -70,6 +70,4 @@ public class CreateWarehouse extends AppCompatActivity {
         String username = intent.getExtras().get("username").toString();
         return realm.where(User.class).equalTo("username", username).findFirst();
     }
-
-
 }
