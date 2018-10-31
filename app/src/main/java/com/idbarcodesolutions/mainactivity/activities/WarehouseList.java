@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.idbarcodesolutions.mainactivity.adapters.MyAdapter;
+import com.idbarcodesolutions.mainactivity.adapters.WarehouseAdapter;
 import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
@@ -31,11 +31,14 @@ public class WarehouseList extends AppCompatActivity {
     private User user;
     private Bundle bundle;
 
+    public final int CREATE_USER = 2;
+    public final int SHOW_USER_LIST = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_warehouse);
+        setContentView(R.layout.warehouse_list);
         realm = Realm.getDefaultInstance();
 
         Intent intent = getIntent();
@@ -53,7 +56,7 @@ public class WarehouseList extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
 
         // Initialize adapter
-        mAdapter = new MyAdapter(warehouseList, R.layout.cardview_item, new MyAdapter.OnItemClickListener() {
+        mAdapter = new WarehouseAdapter(warehouseList, R.layout.cardview_warehouse_item, new WarehouseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String name, int position) {
                 Toast.makeText(WarehouseList.this, name, Toast.LENGTH_LONG).show();
@@ -73,6 +76,7 @@ public class WarehouseList extends AppCompatActivity {
                 Toast.makeText(WarehouseList.this, user.getUsername(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WarehouseList.this, UserActivity.class);
                 intent.putExtra("username", user.getUsername());
+                intent.putExtra("action", SHOW_USER_LIST);
                 startActivity(intent);
 
             }

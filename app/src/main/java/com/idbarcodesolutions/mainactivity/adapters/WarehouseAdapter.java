@@ -1,6 +1,5 @@
 package com.idbarcodesolutions.mainactivity.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,17 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.idbarcodesolutions.mainactivity.R;
+import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
 import io.realm.RealmResults;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class WarehouseAdapter extends RecyclerView.Adapter<WarehouseAdapter.ViewHolder> {
 
     private RealmResults<Warehouse> warehouseList;
     private int layout;
     private OnItemClickListener itemClickListener;
 
-    public MyAdapter(RealmResults<Warehouse> warehouseList, int layout, OnItemClickListener onItemClickListener) {
+    public WarehouseAdapter(RealmResults<Warehouse> warehouseList, int layout, OnItemClickListener onItemClickListener) {
         this.warehouseList = warehouseList;
         this.layout = layout;
         this.itemClickListener = onItemClickListener;
