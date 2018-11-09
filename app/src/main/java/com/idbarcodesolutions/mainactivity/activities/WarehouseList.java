@@ -3,14 +3,20 @@ package com.idbarcodesolutions.mainactivity.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
+import com.idbarcodesolutions.mainactivity.adapters.DrawerAdapter;
 import com.idbarcodesolutions.mainactivity.adapters.WarehouseAdapter;
 import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Warehouse;
@@ -34,13 +40,21 @@ public class WarehouseList extends AppCompatActivity {
     public final int CREATE_USER = 2;
     public final int SHOW_USER_LIST = 1;
 
+    // Navigation Drawer elements
+    private String[] mOptions;
+    private DrawerLayout mDrawerLayout;
+    private ListView mListViewOptions;
+    private ActionBarDrawerToggle mToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.warehouse_list);
         realm = Realm.getDefaultInstance();
+        setTitle("Warehouses");
 
+        // Get extras to know who is the user
         Intent intent = getIntent();
         final String username = intent.getStringExtra("username");
         user = realm.where(User.class).equalTo("username", username).findFirst();
@@ -76,9 +90,8 @@ public class WarehouseList extends AppCompatActivity {
                 Toast.makeText(WarehouseList.this, user.getUsername(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WarehouseList.this, UserActivity.class);
                 intent.putExtra("username", user.getUsername());
-                intent.putExtra("action", SHOW_USER_LIST);
+                intent.putExtra("action", CREATE_USER);
                 startActivity(intent);
-
             }
         });
     }
