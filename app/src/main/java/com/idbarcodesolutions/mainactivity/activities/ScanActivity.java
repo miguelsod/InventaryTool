@@ -24,7 +24,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
+public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
 
     // Store EMDKManager object
     private EMDKManager emdkManager = null;

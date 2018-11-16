@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.idbarcodesolutions.mainactivity">
 
     <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
@@ -11,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <uses-library android:name="com.symbol.emdk" />
 
         <activity android:name=".activities.InitialSetup">
@@ -22,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.ScanActivity" />
         <activity
             android:name=".activities.WarehouseList"
             android:label="@string/warehouseActivity" />

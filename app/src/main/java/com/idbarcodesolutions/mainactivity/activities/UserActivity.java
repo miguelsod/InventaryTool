@@ -46,10 +46,8 @@ public class UserActivity extends AppCompatActivity {
         // Get intent in order to get the action
         Intent intent = getIntent();
         int action = intent.getIntExtra("action", 0);
-        switch (action){
+        switch (action) {
             case CREATE_USER:
-                // When user clicks on "Create" button
-                setContentView(R.layout.create_user);
                 createUser();
                 break;
             case SHOW_USER_LIST:
@@ -58,7 +56,6 @@ public class UserActivity extends AppCompatActivity {
             default:
                 super.onCreate(savedInstanceState);
         }
-
     }
 
     private User getUser() {
@@ -67,7 +64,8 @@ public class UserActivity extends AppCompatActivity {
         return realm.where(User.class).equalTo("username", username).findFirst();
     }
 
-    public void createUser(){
+    public void createUser() {
+        setContentView(R.layout.create_user);
         buttonCreateUser = findViewById(R.id.buttonCreateUser);
         buttonCreateUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +73,7 @@ public class UserActivity extends AppCompatActivity {
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
                 if (username.length() >= USERNAME_MIN_LENGTH) {
-                    if(password.length() >= PASSWORD_MIN_LENGTH){
+                    if (password.length() >= PASSWORD_MIN_LENGTH) {
                         User user = new User(username, password);
                         UserRight userRight = new UserRight(user.getUserID(), User.USER);
                         user.setRight(userRight);
@@ -93,12 +91,12 @@ public class UserActivity extends AppCompatActivity {
         });
     }
 
-    public void showUserList(){
+    public void showUserList() {
         setContentView(R.layout.user_list);
         RealmResults<User> userList = realm.where(User.class).findAll();
         RecyclerView mRecyclerView = findViewById(R.id.recyclerViewUserList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        UserAdapter mUserAdapter = new UserAdapter(userList, R.layout.cardview_user_item, new UserAdapter.OnItemClickListener(){
+        UserAdapter mUserAdapter = new UserAdapter(userList, R.layout.cardview_user_item, new UserAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String name, int position) {
                 Toast.makeText(UserActivity.this, name, Toast.LENGTH_LONG).show();
@@ -112,7 +110,7 @@ public class UserActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mUserAdapter);
     }
 
-    private void saveUser(final User user){
+    private void saveUser(final User user) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -120,5 +118,4 @@ public class UserActivity extends AppCompatActivity {
             }
         });
     }
-
 }

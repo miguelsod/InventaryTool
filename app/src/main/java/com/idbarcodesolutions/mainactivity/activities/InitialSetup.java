@@ -31,7 +31,7 @@ public class InitialSetup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_setup);
-
+        setTitle("Setup");
         // Get UI reference
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         buttonNext = (Button) findViewById(R.id.buttonNextSetup);
