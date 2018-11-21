@@ -8,15 +8,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.idbarcodesolutions.mainactivity.adapters.WarehouseAdapter;
 import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
@@ -25,7 +22,7 @@ import io.realm.RealmResults;
 
 public class WarehouseList extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+//    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -59,26 +56,6 @@ public class WarehouseList extends AppCompatActivity {
         final String username = intent.getStringExtra("username");
         user = realm.where(User.class).equalTo("username", username).findFirst();
 
-        // Get all the warehouseList
-        warehouseList = realm.where(Warehouse.class).findAll();
-
-        // Set LinearLayoutManager
-        mLayoutManager = new LinearLayoutManager(this);
-
-        // Initialize adapter
-        mAdapter = new WarehouseAdapter(warehouseList, R.layout.cardview_warehouse_item, new WarehouseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String name, int position) {
-                Toast.makeText(WarehouseList.this, name, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
         // Floating action button functionality
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +86,6 @@ public class WarehouseList extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Bind RecyclerView and FloatingActionButton
-        mRecyclerView = findViewById(R.id.recyclerViewWarehouseList);
         floatingActionButton = findViewById(R.id.floatingActionButton);
     }
 
@@ -126,7 +101,6 @@ public class WarehouseList extends AppCompatActivity {
     }
 
     // Listener to know which option has been pressed
-
     private NavigationView.OnNavigationItemSelectedListener navigationListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
