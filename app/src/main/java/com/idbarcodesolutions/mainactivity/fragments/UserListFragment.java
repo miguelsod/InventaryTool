@@ -1,8 +1,8 @@
 package com.idbarcodesolutions.mainactivity.fragments;
 
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,27 +13,22 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.idbarcodesolutions.mainactivity.adapters.WarehouseAdapter;
+import com.idbarcodesolutions.mainactivity.adapters.UserAdapter;
 import com.idbarcodesolutions.mainactivity.models.User;
-import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class WarehouseListFragment extends Fragment {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+public class UserListFragment extends Fragment {
 
     private Realm realm;
-    private RealmResults<Warehouse> warehouseList;
-
-    private FloatingActionButton floatingActionButton;
-    private User user;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private UserAdapter mUserAdapter;
 
     private Context context;
 
-    public WarehouseListFragment() {
+    public UserListFragment() {
         // Required empty public constructor
     }
 
@@ -46,19 +41,14 @@ public class WarehouseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         realm = Realm.getDefaultInstance();
+        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_warehouse_list, container, false);
-        bindUIElements(view);
-
-        return view;
-    }
-
-    public void bindUIElements(View view) {
-        warehouseList = realm.where(Warehouse.class).findAll();
-        mRecyclerView = view.findViewById(R.id.recyclerViewFragment);
+        RealmResults<User> userList = realm.where(User.class).findAll();
+        mRecyclerView = view.findViewById(R.id.recyclerViewUserListFragment);
         mLayoutManager = new LinearLayoutManager(context);
-        mAdapter = new WarehouseAdapter(warehouseList, R.layout.cardview_warehouse_item, new WarehouseAdapter.OnItemClickListener() {
+        mUserAdapter = new UserAdapter(userList, R.layout.cardview_user_item, new UserAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String name, int position) {
                 Toast.makeText(context, name, Toast.LENGTH_LONG).show();
@@ -69,10 +59,9 @@ public class WarehouseListFragment extends Fragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mUserAdapter);
+
+        return view;
     }
 
-    public interface FragmentChangeListener {
-        void replaceFragment(Fragment fragment);
-    }
 }

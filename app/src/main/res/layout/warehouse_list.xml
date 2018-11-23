@@ -7,19 +7,26 @@
     android:visibility="visible">
 
     <!-- Main content -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:id="@+id/mainContentLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.WarehouseList">
 
-        <fragment
-            android:layout_centerHorizontal="true"
-            android:name="com.idbarcodesolutions.mainactivity.fragments.WarehouseListFragment"
-            android:id="@+id/myFragment"
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </fragment>
+            <!--<fragment-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:name="com.idbarcodesolutions.mainactivity.fragments.WarehouseListFragment"-->
+                <!--android:id="@+id/myFragment"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+            <!--</fragment>-->
+        </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -32,7 +39,6 @@
             android:backgroundTint="@color/colorPrimary"
             android:elevation="4dp"
             android:src="@android:drawable/ic_input_add" />
-
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

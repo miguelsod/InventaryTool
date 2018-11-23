@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.symbol.emdk.EMDKBase;
 import com.symbol.emdk.EMDKManager;
 import com.symbol.emdk.EMDKResults;
-import com.symbol.emdk.ProfileManager;
 import com.symbol.emdk.barcode.BarcodeManager;
 import com.symbol.emdk.barcode.ScanDataCollection;
 import com.symbol.emdk.barcode.Scanner;
@@ -19,8 +16,6 @@ import com.symbol.emdk.barcode.ScannerConfig;
 import com.symbol.emdk.barcode.ScannerException;
 import com.symbol.emdk.barcode.ScannerResults;
 import com.symbol.emdk.barcode.StatusData;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -49,7 +44,7 @@ public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setTitle("Scan product");
         // Reference to UI elements
         bindUI();
         //this.startRead = false;

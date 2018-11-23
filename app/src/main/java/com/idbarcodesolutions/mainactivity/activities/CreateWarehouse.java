@@ -30,6 +30,7 @@ public class CreateWarehouse extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_warehouse);
+        setTitle("Create warehouse");
         realm = Realm.getDefaultInstance();
 
         editTextWarehouseName = (EditText) findViewById(R.id.editTextWarehouseName);

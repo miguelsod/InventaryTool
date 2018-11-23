@@ -14,7 +14,6 @@ import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class LoginActivity extends AppCompatActivity {
@@ -40,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        setTitle("Login");
         // Bind UI elements
         bindUI();
 
@@ -78,7 +77,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean login(String username, String password) {
         // TODO: Check if user exists
-        user = realm.where(User.class).equalTo("username", username).and().equalTo("password", password).findFirst();
+        user = realm.where(User.class)
+                .equalTo("username", username)
+                .and()
+                .equalTo("password", password)
+                .findFirst();
+
         if (user != null) {
             return true;
         } else {

@@ -9,10 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.idbarcodesolutions.mainactivity.models.Right;
 import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.UserRight;
-import com.idbarcodesolutions.mainactivity.models.Warehouse;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -48,7 +46,6 @@ public class InitialSetup extends AppCompatActivity {
             startActivity(intent);
         } else {
             // TODO: CREATE USER IF DOESN'T EXISTS
-            // When button is clicked...
             buttonNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
