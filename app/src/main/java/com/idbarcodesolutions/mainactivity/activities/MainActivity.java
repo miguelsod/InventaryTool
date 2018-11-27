@@ -16,13 +16,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
+import com.idbarcodesolutions.mainactivity.fragments.ScanFragment;
 import com.idbarcodesolutions.mainactivity.fragments.UserListFragment;
 import com.idbarcodesolutions.mainactivity.fragments.WarehouseListFragment;
 import com.idbarcodesolutions.mainactivity.models.User;
 
 import io.realm.Realm;
 
-public class WarehouseList extends AppCompatActivity implements WarehouseListFragment.FragmentChangeListener {
+public class MainActivity extends AppCompatActivity implements WarehouseListFragment.FragmentChangeListener {
 
     private Realm realm;
 
@@ -59,8 +60,8 @@ public class WarehouseList extends AppCompatActivity implements WarehouseListFra
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(WarehouseList.this, user.getUsername(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(WarehouseList.this, UserActivity.class);
+                Toast.makeText(MainActivity.this, user.getUsername(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, UserActivity.class);
                 intent.putExtra("username", user.getUsername());
                 intent.putExtra("action", CREATE_USER);
                 startActivity(intent);
@@ -69,7 +70,6 @@ public class WarehouseList extends AppCompatActivity implements WarehouseListFra
     }
 
     private void binUIElements() {
-
         // Bind drawer UI elements
         mDrawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
@@ -108,25 +108,29 @@ public class WarehouseList extends AppCompatActivity implements WarehouseListFra
                     // TODO: Call to Warehouse Fragment
                     setTitle("Warehouses");
                     showOtherFragment(item.getItemId());
-                    Toast.makeText(WarehouseList.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.usersItem:
                     // TODO: Call User Fragment
                     setTitle("Users");
                     showOtherFragment(item.getItemId());
-                    Toast.makeText(WarehouseList.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.settingsItem:
                     // TODO: Call settings fragment
                     setTitle("Settings");
                     showOtherFragment(item.getItemId());
-                    Toast.makeText(WarehouseList.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.logOutItem:
                     // TODO: Call logout function
-                    Intent intent = new Intent(WarehouseList.this, LoginActivity.class);
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    break;
+                case R.id.scanItem:
+                    setTitle("Scan");
+                    showOtherFragment(item.getItemId());
                     break;
                 default:
                     break;
@@ -152,6 +156,9 @@ public class WarehouseList extends AppCompatActivity implements WarehouseListFra
             case R.id.settingsItem:
                 // TODO: Call settings fragment
                 break;
+            case R.id.scanItem:
+                fragment = new ScanFragment();
+                replaceFragment(fragment);
             default:
                 break;
         }

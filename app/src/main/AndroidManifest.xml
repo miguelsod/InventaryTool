@@ -26,7 +26,7 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.ScanActivity" />
         <activity
-            android:name=".activities.WarehouseList"
+            android:name=".activities.MainActivity"
             android:label="@string/warehouseActivity" />
         <activity android:name=".activities.CreateWarehouse" />
         <activity android:name=".activities.UserActivity"></activity>

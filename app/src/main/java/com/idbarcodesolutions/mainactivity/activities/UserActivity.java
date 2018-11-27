@@ -39,9 +39,7 @@ public class UserActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         // Get current user
         currentUser = getUser();
-        // UI elements
-        editTextUsername = findViewById(R.id.editTextUsername);
-        editTextPassword = findViewById(R.id.editTextPassword);
+
 
         // Get intent in order to get the action
         Intent intent = getIntent();
@@ -66,6 +64,9 @@ public class UserActivity extends AppCompatActivity {
 
     public void createUser() {
         setContentView(R.layout.create_user);
+        // UI elements
+        editTextUsername = findViewById(R.id.editTextUsernameNew);
+        editTextPassword = findViewById(R.id.editTextPassword);
         buttonCreateUser = findViewById(R.id.buttonCreateUser);
         buttonCreateUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +80,8 @@ public class UserActivity extends AppCompatActivity {
                         user.setRight(userRight);
                         saveUser(user);
                         Toast.makeText(UserActivity.this, "User created", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(UserActivity.this, WarehouseList.class);
-                        startActivity(intent);
+                        //Intent intent = new Intent(UserActivity.this, MainActivity.class);
+                        //startActivity(intent);
                     } else {
                         Toast.makeText(UserActivity.this, "Please enter a 6 characters long password", Toast.LENGTH_LONG).show();
                     }

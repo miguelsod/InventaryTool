@@ -1,8 +1,13 @@
-package com.idbarcodesolutions.mainactivity.activities;
+package com.idbarcodesolutions.mainactivity.fragments;
 
+
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,8 +24,7 @@ import com.symbol.emdk.barcode.StatusData;
 
 import java.util.ArrayList;
 
-public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
-
+public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
     // Store EMDKManager object
     private EMDKManager emdkManager = null;
 
@@ -34,27 +38,47 @@ public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKL
     private TextView statusTextView = null;
     private EditText dataView = null;
 
+    private boolean startRead;
+
     private int dataLength = 0;
 
-    private AsyncDataUpdate asyncDataUpdate;
+    private Context context;
+
+
+    public ScanFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setTitle("Scan product");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_scan, container, false);
         // Reference to UI elements
-        bindUI();
+        bindUI(view);
+        //this.startRead = false;
 
         // Se crea el objeto EMDKManager
         EMDKResults results = EMDKManager.getEMDKManager(
-                getApplicationContext(),
+                context,
                 this
         );
 
         if (results.statusCode != EMDKResults.STATUS_CODE.SUCCESS) {
             statusTextView.setText("EMDKManager Request Failed");
         }
+        return view;
+    }
+
+    private void bindUI(View view) {
+        statusTextView = view.findViewById(R.id.textViewStatusFragment);
+        dataView = view.findViewById(R.id.editTextDataFragment);
     }
 
     public void initializeScanner() throws ScannerException {
@@ -107,12 +131,6 @@ public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKL
         }
     }
 
-    private void bindUI() {
-        statusTextView = (TextView) findViewById(R.id.textViewStatus);
-        dataView = (EditText) findViewById(R.id.editTextData);
-    }
-
-    // EMDKListener
     @Override
     public void onOpened(EMDKManager emdkManager) {
         this.emdkManager = emdkManager;
@@ -265,10 +283,12 @@ public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKL
             super.onPostExecute(result);
             statusTextView.setText(result);
         }
+
+
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (emdkManager != null) {
             // Clean up the objects created by EMDK manager
@@ -283,7 +303,7 @@ public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKL
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         try {
             if (scanner != null) {
@@ -299,5 +319,4 @@ public class ScanActivity extends AppCompatActivity implements EMDKManager.EMDKL
             e.printStackTrace();
         }
     }
-
 }

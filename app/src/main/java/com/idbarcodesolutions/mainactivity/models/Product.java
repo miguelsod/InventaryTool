@@ -5,13 +5,13 @@ import io.realm.RealmObject;
 public class Product extends RealmObject {
     private String SKU;
     private int quantiy;
+    private Warehouse warehouse;
 
     public Product() {
     }
 
-    public Product(String SKU, int quantiy) {
+    public Product(String SKU) {
         this.SKU = SKU;
-        this.quantiy = quantiy;
     }
 
     public String getSKU() {

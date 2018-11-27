@@ -56,7 +56,7 @@ public class CreateWarehouse extends AppCompatActivity {
                         }
                     });
 
-                    Intent intent = new Intent(CreateWarehouse.this, WarehouseList.class);
+                    Intent intent = new Intent(CreateWarehouse.this, MainActivity.class);
                     intent.putExtra("username", user.getUsername());
                     startActivity(intent);
                 } else {

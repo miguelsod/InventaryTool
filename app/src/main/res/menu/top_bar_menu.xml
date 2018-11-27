@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/scanItem"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Scan" />
+    <item
         android:id="@+id/warehousesItem"
         android:icon="@drawable/ic_baseline_store_24px"
-        android:title="Warehouses" />
+        android:title="Warehouse" />
     <item
         android:id="@+id/usersItem"
         android:icon="@drawable/ic_baseline_supervisor_account_24px"
