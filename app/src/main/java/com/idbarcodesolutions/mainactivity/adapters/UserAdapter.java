@@ -25,8 +25,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
         return viewHolder;
     }
 
@@ -41,13 +43,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         public TextView textViewUsername;
-        public ViewHolder(View itemView) {
+
+        private ViewHolder(View itemView) {
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
         }
 
-        public void bind(final String username, final OnItemClickListener listener){
+        private void bind(final String username, final OnItemClickListener listener){
 
             textViewUsername.setText(username);
 

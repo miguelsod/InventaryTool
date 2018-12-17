@@ -3,15 +3,15 @@ package com.idbarcodesolutions.mainactivity.models;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Warehouse extends RealmObject {
+public class Store extends RealmObject {
     @PrimaryKey
     private String warehouseID;
     private int qty = 0;
 
-    public Warehouse() {
+    public Store() {
     }
 
-    public Warehouse(String warehouseID) {
+    public Store(String warehouseID) {
         this.warehouseID = warehouseID;
     }
 

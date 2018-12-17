@@ -3,7 +3,6 @@ package com.idbarcodesolutions.mainactivity.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,22 +11,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.idbarcodesolutions.mainactivity.fragments.ScanFragment;
+import com.idbarcodesolutions.mainactivity.fragments.FragmentChangeListener;
+import com.idbarcodesolutions.mainactivity.fragments.ProductListFragment;
+import com.idbarcodesolutions.mainactivity.fragments.StoreListFragment;
 import com.idbarcodesolutions.mainactivity.fragments.UserListFragment;
-import com.idbarcodesolutions.mainactivity.fragments.WarehouseListFragment;
 import com.idbarcodesolutions.mainactivity.models.User;
 
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity implements WarehouseListFragment.FragmentChangeListener {
+public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
 
     private Realm realm;
 
-    private FloatingActionButton floatingActionButton;
+
     private User user;
 
     public final int CREATE_USER = 2;
@@ -41,9 +39,9 @@ public class MainActivity extends AppCompatActivity implements WarehouseListFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.warehouse_list);
+        setContentView(R.layout.activity_main);
         realm = Realm.getDefaultInstance();
-        setTitle("Warehouses");
+        setTitle("Products");
 
         // Bind UI elements
         binUIElements();
@@ -53,20 +51,9 @@ public class MainActivity extends AppCompatActivity implements WarehouseListFrag
         final String username = intent.getStringExtra("username");
         user = realm.where(User.class).equalTo("username", username).findFirst();
 
-        // Show WarehouseListFragment by default
-        replaceFragment(new WarehouseListFragment());
+        // Show StoreListFragment by default
+        replaceFragment(new ProductListFragment());
 
-        // Floating action button functionality
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, user.getUsername(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                intent.putExtra("username", user.getUsername());
-                intent.putExtra("action", CREATE_USER);
-                startActivity(intent);
-            }
-        });
     }
 
     private void binUIElements() {
@@ -84,18 +71,14 @@ public class MainActivity extends AppCompatActivity implements WarehouseListFrag
         mToggle.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        floatingActionButton = findViewById(R.id.floatingActionButton);
     }
 
     // Open/Close drawer using the toggle button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -104,33 +87,30 @@ public class MainActivity extends AppCompatActivity implements WarehouseListFrag
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.warehousesItem:
-                    // TODO: Call to Warehouse Fragment
-                    setTitle("Warehouses");
+                case R.id.productsItem:
+                    setTitle("Products");
+                    showOtherFragment(R.id.productsItem);
+                    break;
+                case R.id.storesItem:
+                    // TODO: Call to Store Fragment
+                    setTitle("Stores");
                     showOtherFragment(item.getItemId());
-                    Toast.makeText(MainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.usersItem:
                     // TODO: Call User Fragment
                     setTitle("Users");
                     showOtherFragment(item.getItemId());
-                    Toast.makeText(MainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.settingsItem:
                     // TODO: Call settings fragment
                     setTitle("Settings");
                     showOtherFragment(item.getItemId());
-                    Toast.makeText(MainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.logOutItem:
                     // TODO: Call logout function
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    break;
-                case R.id.scanItem:
-                    setTitle("Scan");
-                    showOtherFragment(item.getItemId());
                     break;
                 default:
                     break;
@@ -140,12 +120,16 @@ public class MainActivity extends AppCompatActivity implements WarehouseListFrag
         }
     };
 
-    public void showOtherFragment(int item){
+    public void showOtherFragment(int item) {
         Fragment fragment;
-        switch (item){
-            case R.id.warehousesItem:
-                // TODO: Call to Warehouse Fragment
-                fragment = new WarehouseListFragment();
+        switch (item) {
+            case R.id.productsItem:
+                fragment = new ProductListFragment();
+                replaceFragment(fragment);
+                break;
+            case R.id.storesItem:
+                // TODO: Call to Store Fragment
+                fragment = new StoreListFragment();
                 replaceFragment(fragment);
                 break;
             case R.id.usersItem:
@@ -156,17 +140,15 @@ public class MainActivity extends AppCompatActivity implements WarehouseListFrag
             case R.id.settingsItem:
                 // TODO: Call settings fragment
                 break;
-            case R.id.scanItem:
-                fragment = new ScanFragment();
-                replaceFragment(fragment);
             default:
                 break;
         }
     }
 
+
     @Override
     public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();;
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment, fragment.toString());
         fragmentTransaction.addToBackStack(fragment.toString());

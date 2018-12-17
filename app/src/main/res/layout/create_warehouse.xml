@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadingEdge="vertical"
-    tools:context=".activities.CreateWarehouse">
+    tools:context=".activities.CreateStore">
 
     <TextView
         android:id="@+id/textViewInstructions"
@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
-        android:text="Create new warehouse"
+        android:text="Create new store"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -46,7 +46,5 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
-        app:srcCompat="@drawable/warehouse" />
-
-
+        app:srcCompat="@drawable/ic_warehouse" />
 </RelativeLayout>

@@ -19,16 +19,17 @@
         <activity android:name=".activities.InitialSetup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.ScanActivity" />
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/warehouseActivity" />
-        <activity android:name=".activities.CreateWarehouse" />
+            android:label="@string/warehouseActivity">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".activities.CreateStore" />
         <activity android:name=".activities.UserActivity"></activity>
     </application>
 

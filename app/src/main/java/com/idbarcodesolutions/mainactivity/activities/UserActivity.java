@@ -40,7 +40,6 @@ public class UserActivity extends AppCompatActivity {
         // Get current user
         currentUser = getUser();
 
-
         // Get intent in order to get the action
         Intent intent = getIntent();
         int action = intent.getIntExtra("action", 0);

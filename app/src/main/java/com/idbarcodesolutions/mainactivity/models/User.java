@@ -1,8 +1,5 @@
 package com.idbarcodesolutions.mainactivity.models;
 
-import android.content.Context;
-import android.content.Intent;
-
 import com.idbarcodesolutions.mainactivity.application.MyApplication;
 
 import io.realm.RealmList;
@@ -16,7 +13,7 @@ public class User extends RealmObject {
     @Required
     private String password;
     private int userID;
-    private RealmList<Warehouse> warehouseList;
+    private RealmList<Store> storeList;
     private UserRight right;
 
     public final static int ADMIN = 700;
@@ -62,12 +59,12 @@ public class User extends RealmObject {
         this.userID = userID;
     }
 
-    public RealmList<Warehouse> getWarehouseList() {
-        return warehouseList;
+    public RealmList<Store> getStoreList() {
+        return storeList;
     }
 
-    public void setWarehouseList(RealmList<Warehouse> warehouseList) {
-        this.warehouseList = warehouseList;
+    public void setStoreList(RealmList<Store> storeList) {
+        this.storeList = storeList;
     }
 
     public UserRight getRight() {
@@ -81,26 +78,26 @@ public class User extends RealmObject {
         this.right = right;
     }
 
-    public Warehouse createNewWarehouse(String warehouseName, User user) {
+    public Store createNewWarehouse(String warehouseName, User user) {
         // Get the user's right
         UserRight right = user.getRight();
 
-        // Check if user is able to create a new Warehouse
-        // Only ADMIN user can create a new Warehouse
+        // Check if user is able to create a new Store
+        // Only ADMIN user can create a new Store
         if (right.getId_right() == User.ADMIN) { // TODO: CHANGE IT LATER TO VIP USER!!
-            Warehouse warehouse = new Warehouse(warehouseName);
-            return warehouse;
+            Store store = new Store(warehouseName);
+            return store;
         } else {
             return null;
         }
     }
 
-    public User createNewUser(String name, String password, Warehouse warehouse, User parentUser) {
+    public User createNewUser(String name, String password, Store store, User parentUser) {
         // Check if user is able to create a new user
         if (parentUser.getRight().getId_right() == User.ADMIN) {
             User newUser = new User(name, password);
-            RealmList<Warehouse> warehouseList = parentUser.getWarehouseList(); // Add the Administrator's default warehouse
-            warehouseList.add(warehouse);
+            RealmList<Store> storeList = parentUser.getStoreList(); // Add the Administrator's default store
+            storeList.add(store);
             return newUser;
         } else {
             return null;

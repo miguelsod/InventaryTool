@@ -8,10 +8,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
+import com.idbarcodesolutions.mainactivity.models.Product;
 import com.symbol.emdk.EMDKManager;
 import com.symbol.emdk.EMDKResults;
 import com.symbol.emdk.barcode.BarcodeManager;
@@ -24,26 +29,27 @@ import com.symbol.emdk.barcode.StatusData;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
+
+    private Realm realm;
+
     // Store EMDKManager object
-    private EMDKManager emdkManager = null;
+    private EMDKManager emdkManager;
 
     // Store Barcode Manager object
-    private BarcodeManager barcodeManager = null;
+    private BarcodeManager barcodeManager;
 
     // Scanner device to scan
-    private Scanner scanner = null;
-
-    // UI elements
-    private TextView statusTextView = null;
-    private EditText dataView = null;
-
-    private boolean startRead;
-
+    private Scanner scanner;
     private int dataLength = 0;
 
+    // UI elements
+    private TextView statusTextView;
+    private EditText dataView;
+    private EditText productQty;
     private Context context;
-
 
     public ScanFragment() {
         // Required empty public constructor
@@ -56,15 +62,17 @@ public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Get Realm instance
+        realm = Realm.getDefaultInstance();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_scan, container, false);
+
         // Reference to UI elements
         bindUI(view);
-        //this.startRead = false;
 
-        // Se crea el objeto EMDKManager
         EMDKResults results = EMDKManager.getEMDKManager(
                 context,
                 this
@@ -79,13 +87,25 @@ public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, 
     private void bindUI(View view) {
         statusTextView = view.findViewById(R.id.textViewStatusFragment);
         dataView = view.findViewById(R.id.editTextDataFragment);
+        productQty = view.findViewById(R.id.editTextQuantity);
+
+        Button btnCreateProduct = view.findViewById(R.id.buttonCreateProduct);
+        btnCreateProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sku = dataView.getText().toString();
+                int qty = Integer.parseInt(productQty.getText().toString());
+                Product newProduct = new Product(sku, qty);
+                saveProduct(newProduct);
+                closeKeyboard();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 
     public void initializeScanner() throws ScannerException {
         if (scanner == null) {
             // Get the Barcode Manager object
-
-
             barcodeManager = (BarcodeManager) this.emdkManager
                     .getInstance(EMDKManager.FEATURE_TYPE.BARCODE);
             // Get default scanner defined on the device
@@ -100,9 +120,6 @@ public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, 
             // Enable the scanner
             scanner.enable();
             scanner.read();
-            //set startRead flag to true. this flag will be used in the OnStatus callback to insure
-            //the scanner is at an IDLE state and a read is not pending before calling scanner.read()
-            // this.startRead = true;
         }
     }
 
@@ -171,41 +188,24 @@ public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, 
 
     private class AsyncDataUpdate extends AsyncTask<ScanDataCollection, Void, String> {
 
-
         @Override
         protected String doInBackground(ScanDataCollection... scanDataCollections) {
 
             // Status string that contains both barcode data and type of barcode
             // that is being scanned
             String statusStr = "";
-
             try {
-                // Starts an asynchronous Scan. The method will not turn ON the
-                // scanner. It will, however, put the scanner in a state in
-                // which
-                // the scanner can be turned ON either by pressing a hardware
-                // trigger or can be turned ON automatically.
                 scanner.read();
-
                 ScanDataCollection scanDataCollection = scanDataCollections[0];
-
-                // The ScanDataCollection object gives scanning result and the
-                // collection of ScanData. So check the data and its status
                 if (scanDataCollection != null && scanDataCollection.getResult() == ScannerResults.SUCCESS) {
 
                     ArrayList<ScanDataCollection.ScanData> scanData = scanDataCollection
                             .getScanData();
 
-                    // Iterate through scanned data and prepare the statusStr
                     for (ScanDataCollection.ScanData data : scanData) {
-                        // Get the scanned data
-                        // Get the type of label being scanned
-                        //ScanDataCollection.LabelType labelType = data.getLabelType();
-                        // Concatenate barcode data and label type
                         statusStr = data.getData();
                     }
                 }
-
             } catch (ScannerException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -318,5 +318,20 @@ public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, 
         } catch (ScannerException e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveProduct(final Product product) {
+        Toast.makeText(context, product.getSku(), Toast.LENGTH_SHORT).show();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(product);
+            }
+        });
+    }
+
+    public void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }

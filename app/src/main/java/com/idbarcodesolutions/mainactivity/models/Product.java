@@ -1,32 +1,44 @@
 package com.idbarcodesolutions.mainactivity.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Product extends RealmObject {
-    private String SKU;
-    private int quantiy;
-    private Warehouse warehouse;
+
+    @PrimaryKey
+    private String sku;
+    private int quantity;
+    private Store store;
 
     public Product() {
     }
 
-    public Product(String SKU) {
-        this.SKU = SKU;
+    public Product(String sku, int quantity) {
+        this.sku = sku;
+        this.quantity = quantity;
     }
 
-    public String getSKU() {
-        return SKU;
+    public String getSku() {
+        return sku;
     }
 
-    public void setSKU(String SKU) {
-        this.SKU = SKU;
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
-    public int getQuantiy() {
-        return quantiy;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuantiy(int quantiy) {
-        this.quantiy = quantiy;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }

@@ -8,10 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
 import com.idbarcodesolutions.mainactivity.models.User;
-import com.idbarcodesolutions.mainactivity.models.Warehouse;
+import com.idbarcodesolutions.mainactivity.models.Store;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Realm realm;
 
-    // Declare UI elements Warehouse
+    // Declare UI elements Store
     private EditText editTextWarehouseName;
     private Button buttonCreateWarehouse;
 
@@ -61,9 +62,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void nextActivity(String username) {
         User user = realm.where(User.class).equalTo("username", username).findFirst();
-        final RealmResults<Warehouse> userWarehouseList = realm.where(Warehouse.class).findAll();
-        if(userWarehouseList != null && userWarehouseList.size() <= 0){
-            Intent intent = new Intent(LoginActivity.this, CreateWarehouse.class);
+        final RealmResults<Store> userStoreList = realm.where(Store.class).findAll();
+        if(userStoreList != null && userStoreList.size() <= 0){
+            Intent intent = new Intent(LoginActivity.this, CreateStore.class);
             intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null) {
             return true;
         } else {
+            Toast.makeText(LoginActivity.this, "Invalid username or password.", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
