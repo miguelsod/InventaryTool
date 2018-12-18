@@ -86,6 +86,10 @@ public class ProductListFragment extends Fragment implements FragmentChangeListe
             case R.id.addItemProductList:
                 openAddDialog();
                 return true;
+            case R.id.exportItemsProductList:
+                // TODO: Validate user privileges
+                // TODO: Call export dialog/fragment
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -122,6 +126,10 @@ public class ProductListFragment extends Fragment implements FragmentChangeListe
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(productAdapter);
 
+        if (productRealmList.size() == 0) {
+            openAddDialog();
+        }
+
         return view;
     }
 
@@ -134,7 +142,7 @@ public class ProductListFragment extends Fragment implements FragmentChangeListe
 
     private void openAddDialog() {
 
-        View customDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_form, null);
+        View customDialog = getActivity().getLayoutInflater().inflate(R.layout.add_product_dialog, null);
 
         final EditText editText = customDialog.findViewById(R.id.editTextSKU);
         final NumberPicker numberPicker = customDialog.findViewById(R.id.numberPickerQty);

@@ -207,7 +207,6 @@ public class ScanFragment extends Fragment implements EMDKManager.EMDKListener, 
                     }
                 }
             } catch (ScannerException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

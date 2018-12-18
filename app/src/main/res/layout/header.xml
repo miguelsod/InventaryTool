@@ -24,11 +24,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textViewEmail"
+        android:id="@+id/textViewWarehouse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
-        android:text="miguel.moreno@idbs.mx"
+        android:text="Warehouse"
         android:textColor="#FFFFFF" />
 
 

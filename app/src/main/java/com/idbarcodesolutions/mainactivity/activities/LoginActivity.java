@@ -3,7 +3,6 @@ package com.idbarcodesolutions.mainactivity.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +10,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
-import com.idbarcodesolutions.mainactivity.models.User;
 import com.idbarcodesolutions.mainactivity.models.Store;
+import com.idbarcodesolutions.mainactivity.models.User;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -28,10 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Realm realm;
 
-    // Declare UI elements Store
-    private EditText editTextWarehouseName;
-    private Button buttonCreateWarehouse;
-
     // User handled
     private User user;
 
@@ -43,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         setTitle("Login");
         // Bind UI elements
         bindUI();
+
+        // TODO: Shared preferences
+        // Save User's session if rememberSwitch has been pressed.
 
         // Get Realm instance
         realm = Realm.getDefaultInstance();
@@ -61,15 +59,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void nextActivity(String username) {
+        Intent intent;
         User user = realm.where(User.class).equalTo("username", username).findFirst();
         final RealmResults<Store> userStoreList = realm.where(Store.class).findAll();
-        if(userStoreList != null && userStoreList.size() <= 0){
-            Intent intent = new Intent(LoginActivity.this, CreateStore.class);
+        if (userStoreList != null && userStoreList.size() <= 0) {
+            intent = new Intent(LoginActivity.this, CreateStore.class);
             intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -77,13 +76,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean login(String username, String password) {
-        // TODO: Check if user exists
+        // Find username in database
         user = realm.where(User.class)
                 .equalTo("username", username)
                 .and()
                 .equalTo("password", password)
                 .findFirst();
 
+        // User exists if it's different by null
         if (user != null) {
             return true;
         } else {
@@ -92,18 +92,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isEmailValid(String email) {
-        return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() >= 4;
-    }
-
     private void bindUI() {
-        editTextUsername = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        switchRemember = (Switch) findViewById(R.id.switchRemember);
-        btnLogin = (Button) findViewById(R.id.buttonLogin);
+        editTextUsername = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        switchRemember = findViewById(R.id.switchRemember);
+        btnLogin = findViewById(R.id.buttonLogin);
     }
+
+    // TODO: DELETE COMMENTS
+//    private boolean isEmailValid(String email) {
+//        return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+//    }
+//
+//    private boolean isPasswordValid(String password) {
+//        return password.length() >= 4;
+//    }
+
+
 }

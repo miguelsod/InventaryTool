@@ -9,8 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.idbarcodesolutions.mainactivity.R;
 import com.idbarcodesolutions.mainactivity.fragments.FragmentChangeListener;
@@ -24,9 +27,7 @@ import io.realm.Realm;
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
 
     private Realm realm;
-
-
-    private User user;
+    public User user;
 
     public final int CREATE_USER = 2;
     public final int SHOW_USER_LIST = 1;
@@ -51,9 +52,29 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         final String username = intent.getStringExtra("username");
         user = realm.where(User.class).equalTo("username", username).findFirst();
 
+        if (user != null && user.getPassword().equals("password")) {
+            showChangePasswordDialog();
+        }
+
         // Show StoreListFragment by default
         replaceFragment(new ProductListFragment());
+    }
 
+    private void showChangePasswordDialog() {
+        View changePassword = getLayoutInflater().inflate(R.layout.change_password_dialog, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Change password")
+                .setMessage("Set a new password")
+                .setPositiveButton("DONE", null)
+                .setView(changePassword);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public User getCurrentUser() {
+        return this.user;
     }
 
     private void binUIElements() {
@@ -69,6 +90,10 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
 
         // Synchronize drawer state (open|close) to change the toggle button state
         mToggle.syncState();
+
+        // Drawer header elements
+        TextView username = (TextView) findViewById(R.id.textViewUsername);
+        TextView warehouse = (TextView) findViewById(R.id.textViewWarehouse);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -92,22 +117,22 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
                     showOtherFragment(R.id.productsItem);
                     break;
                 case R.id.storesItem:
-                    // TODO: Call to Store Fragment
+                    // Call to Store Fragment
                     setTitle("Stores");
                     showOtherFragment(item.getItemId());
                     break;
                 case R.id.usersItem:
-                    // TODO: Call User Fragment
+                    // Call User Fragment
                     setTitle("Users");
                     showOtherFragment(item.getItemId());
                     break;
                 case R.id.settingsItem:
-                    // TODO: Call settings fragment
+                    // Call settings fragment
                     setTitle("Settings");
                     showOtherFragment(item.getItemId());
                     break;
                 case R.id.logOutItem:
-                    // TODO: Call logout function
+                    // Call logout function
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -122,23 +147,25 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
 
     public void showOtherFragment(int item) {
         Fragment fragment;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
         switch (item) {
             case R.id.productsItem:
                 fragment = new ProductListFragment();
                 replaceFragment(fragment);
                 break;
             case R.id.storesItem:
-                // TODO: Call to Store Fragment
+                // Call to Store Fragment
                 fragment = new StoreListFragment();
                 replaceFragment(fragment);
                 break;
             case R.id.usersItem:
-                // TODO: Call User Fragment
+                // Call User Fragment
                 fragment = new UserListFragment();
                 replaceFragment(fragment);
                 break;
             case R.id.settingsItem:
-                // TODO: Call settings fragment
+                // Call settings fragment
                 break;
             default:
                 break;

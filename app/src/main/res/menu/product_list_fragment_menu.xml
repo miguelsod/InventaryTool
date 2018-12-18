@@ -7,6 +7,7 @@
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
-
     <item android:title="Add" android:id="@+id/addItemProductList"/>
+    <item android:title="Export" android:id="@+id/exportItemsProductList"/>
+
 </menu>

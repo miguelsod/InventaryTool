@@ -2,12 +2,14 @@ package com.idbarcodesolutions.mainactivity.models;
 
 import com.idbarcodesolutions.mainactivity.application.MyApplication;
 
+import java.io.Serializable;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class User extends RealmObject {
+public class User extends RealmObject implements Serializable {
     @PrimaryKey
     private String username;
     @Required
@@ -16,8 +18,8 @@ public class User extends RealmObject {
     private RealmList<Store> storeList;
     private UserRight right;
 
-    public final static int ADMIN = 700;
-    public final static int USER = 300;
+    public static final int ADMIN = 700;
+    public static final int USER = 300;
 
     public User() {
     }
@@ -103,4 +105,6 @@ public class User extends RealmObject {
             return null;
         }
     }
+
+
 }

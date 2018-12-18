@@ -21,6 +21,7 @@ public class InitialSetup extends AppCompatActivity {
     private EditText editTextUsername;
     private EditText editTextPassword;
     private Button buttonNext;
+    private Intent intent;
 
     // Get user list
     private RealmResults<User> userList;
@@ -30,9 +31,10 @@ public class InitialSetup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_setup);
         setTitle("Setup");
+
         // Get UI reference
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        buttonNext = (Button) findViewById(R.id.buttonNextSetup);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonNext = findViewById(R.id.buttonNextSetup);
 
         // Get Realm instance
         final Realm realm = Realm.getDefaultInstance();
@@ -40,18 +42,19 @@ public class InitialSetup extends AppCompatActivity {
 
         // Check if any user already exists
         if (userList.size() > 0) {
-            // TODO: USER EXISTS!
-            // Send user to log in
-            Intent intent = new Intent(InitialSetup.this, LoginActivity.class);
+            // Send user to login activity
+            intent = new Intent(InitialSetup.this, LoginActivity.class);
             startActivity(intent);
         } else {
-            // TODO: CREATE USER IF DOESN'T EXISTS
+            // Create if user does not exist.
             buttonNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // Validate password field
                     String password = editTextPassword.getText().toString();
+
                     if (!password.isEmpty()) {
+
                         // Create new ADMIN user
                         final User user = new User("admin", password);
                         user.setRight(new UserRight(user.getUserID(), User.ADMIN));
@@ -60,7 +63,7 @@ public class InitialSetup extends AppCompatActivity {
                             @Override
                             public void execute(Realm realm) {
                                 realm.copyToRealmOrUpdate(user);
-                                Intent intent = new Intent(InitialSetup.this, LoginActivity.class);
+                                intent = new Intent(InitialSetup.this, LoginActivity.class);
                                 intent.putExtra("username", user.getUsername());
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
