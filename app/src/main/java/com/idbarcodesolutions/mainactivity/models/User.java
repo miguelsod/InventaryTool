@@ -1,10 +1,13 @@
 package com.idbarcodesolutions.mainactivity.models;
 
+import android.support.annotation.NonNull;
+
 import com.idbarcodesolutions.mainactivity.application.MyApplication;
 
 import java.io.Serializable;
 
-import io.realm.RealmList;
+import javax.annotation.Nullable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -14,8 +17,11 @@ public class User extends RealmObject implements Serializable {
     private String username;
     @Required
     private String password;
+    @NonNull
     private int userID;
-    private RealmList<Store> storeList;
+    @Nullable
+    private Store store;
+    @NonNull
     private UserRight right;
 
     public static final int ADMIN = 700;
@@ -57,23 +63,16 @@ public class User extends RealmObject implements Serializable {
         return userID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public Store getStore() {
+        return store;
     }
 
-    public RealmList<Store> getStoreList() {
-        return storeList;
-    }
-
-    public void setStoreList(RealmList<Store> storeList) {
-        this.storeList = storeList;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public UserRight getRight() {
-        if (this.right != null) {
-            return this.right;
-        }
-        return null;
+        return right;
     }
 
     public void setRight(UserRight right) {
@@ -93,18 +92,5 @@ public class User extends RealmObject implements Serializable {
             return null;
         }
     }
-
-    public User createNewUser(String name, String password, Store store, User parentUser) {
-        // Check if user is able to create a new user
-        if (parentUser.getRight().getId_right() == User.ADMIN) {
-            User newUser = new User(name, password);
-            RealmList<Store> storeList = parentUser.getStoreList(); // Add the Administrator's default store
-            storeList.add(store);
-            return newUser;
-        } else {
-            return null;
-        }
-    }
-
 
 }

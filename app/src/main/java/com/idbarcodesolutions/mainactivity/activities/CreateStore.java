@@ -33,9 +33,9 @@ public class CreateStore extends AppCompatActivity {
         setTitle("Create warehouse");
         realm = Realm.getDefaultInstance();
 
-        editTextWarehouseName = (EditText) findViewById(R.id.editTextWarehouseName);
         imageViewIcon = (ImageView) findViewById(R.id.imageView);
-        buttonCreate = (Button) findViewById(R.id.buttonCreateWarehouse);
+        editTextWarehouseName = (EditText) findViewById(R.id.editTextWarehouseName);
+        buttonCreate = findViewById(R.id.buttonCreateWarehouse);
         user = getUser();
         final RealmResults<Store> storeList = realm.where(Store.class).findAll();
         final RealmList<Store> stores = new RealmList<Store>();
@@ -55,7 +55,6 @@ public class CreateStore extends AppCompatActivity {
                             realm.copyToRealmOrUpdate(user);
                         }
                     });
-
                     Intent intent = new Intent(CreateStore.this, MainActivity.class);
                     intent.putExtra("username", user.getUsername());
                     startActivity(intent);

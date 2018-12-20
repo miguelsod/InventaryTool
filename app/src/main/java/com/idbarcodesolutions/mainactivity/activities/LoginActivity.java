@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setTitle("Login");
         // Bind UI elements
-        bindUI();
+        bindUIElements();
 
         // TODO: Shared preferences
         // Save User's session if rememberSwitch has been pressed.
@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         } else {
+            // TODO: Send User object to MainActivity
             intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("username", user.getUsername());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void bindUI() {
+    private void bindUIElements() {
         editTextUsername = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         switchRemember = findViewById(R.id.switchRemember);
