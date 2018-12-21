@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.idbarcodesolutions.mainactivity.R;
 import com.idbarcodesolutions.mainactivity.models.User;
-import com.idbarcodesolutions.mainactivity.models.UserRight;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -52,21 +51,20 @@ public class InitialSetup extends AppCompatActivity {
 
                     if (!password.isEmpty()) {
                         // Create new ADMIN user
-                        user = new User("admin", password);
-                        UserRight adminRight = new UserRight(user.getUserID(), User.ADMIN);
-                        user.setRight(adminRight);
+                        user = new User("admin", password, User.ADMIN);
                         // Pass it to Realm db
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                realm.copyToRealm(user);
-                                intent = new Intent(InitialSetup.this, LoginActivity.class);
-                                intent.putExtra("username", user.getUsername());
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
+                                realm.copyToRealmOrUpdate(user);
                             }
                         });
+                        intent = new Intent(InitialSetup.this, LoginActivity.class);
+                        intent.putExtra("username", user.getUsername());
+                        intent.putExtra("user", user);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        //finish();
                     } else {
                         Toast.makeText(InitialSetup.this, "Please, set your password", Toast.LENGTH_LONG).show();
                     }

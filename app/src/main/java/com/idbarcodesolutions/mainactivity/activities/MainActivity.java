@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         final String username = intent.getStringExtra("username");
         user = realm.where(User.class).equalTo("username", username).findFirst();
 
+
         if (user != null && user.getPassword().equals("password")) {
             showChangePasswordDialog();
         }

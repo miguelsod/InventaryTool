@@ -1,9 +1,11 @@
 package com.idbarcodesolutions.mainactivity.models;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Store extends RealmObject {
+public class Store extends RealmObject implements Serializable {
     @PrimaryKey
     private String warehouseID;
     private int qty = 0;

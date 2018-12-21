@@ -52,15 +52,19 @@ public class LoginActivity extends AppCompatActivity {
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
                 if (login(username, password)) {
-                    nextActivity(username);
+                    user = realm.where(User.class).equalTo("username", username).and().equalTo("password", password).findFirst();
+                    if (user != null) {
+                        int value = user.getRight();
+                        nextActivity(user);
+                    }
                 }
             }
         });
     }
 
-    private void nextActivity(String username) {
+    private void nextActivity(User user) {
         Intent intent;
-        User user = realm.where(User.class).equalTo("username", username).findFirst();
+
         final RealmResults<Store> userStoreList = realm.where(Store.class).findAll();
         if (userStoreList != null && userStoreList.size() <= 0) {
             intent = new Intent(LoginActivity.this, CreateStore.class);
@@ -77,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean login(String username, String password) {
+
         // Find username in database
         user = realm.where(User.class)
                 .equalTo("username", username)

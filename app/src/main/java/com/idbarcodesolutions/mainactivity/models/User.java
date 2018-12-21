@@ -6,8 +6,6 @@ import com.idbarcodesolutions.mainactivity.application.MyApplication;
 
 import java.io.Serializable;
 
-import javax.annotation.Nullable;
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -19,10 +17,9 @@ public class User extends RealmObject implements Serializable {
     private String password;
     @NonNull
     private int userID;
-    @Nullable
     private Store store;
     @NonNull
-    private UserRight right;
+    private int right;
 
     public static final int ADMIN = 700;
     public static final int USER = 300;
@@ -36,7 +33,7 @@ public class User extends RealmObject implements Serializable {
         this.password = password;
     }
 
-    public User(String username, String password, UserRight right) {
+    public User(String username, String password, int right) {
         this.userID = MyApplication.userID.incrementAndGet();
         this.username = username;
         this.password = password;
@@ -59,8 +56,13 @@ public class User extends RealmObject implements Serializable {
         this.password = password;
     }
 
+    @NonNull
     public int getUserID() {
         return userID;
+    }
+
+    public void setUserID(@NonNull int userID) {
+        this.userID = userID;
     }
 
     public Store getStore() {
@@ -71,21 +73,21 @@ public class User extends RealmObject implements Serializable {
         this.store = store;
     }
 
-    public UserRight getRight() {
+    public int getRight() {
         return right;
     }
 
-    public void setRight(UserRight right) {
+    public void setRight(int right) {
         this.right = right;
     }
 
     public Store createNewWarehouse(String warehouseName, User user) {
         // Get the user's right
-        UserRight right = user.getRight();
+        int right = user.getRight();
 
         // Check if user is able to create a new Store
         // Only ADMIN user can create a new Store
-        if (right.getId_right() == User.ADMIN) { // TODO: CHANGE IT LATER TO VIP USER!!
+        if (right == User.ADMIN) { // TODO: CHANGE IT LATER TO VIP USER!!
             Store store = new Store(warehouseName);
             return store;
         } else {

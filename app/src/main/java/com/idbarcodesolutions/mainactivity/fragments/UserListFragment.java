@@ -28,7 +28,6 @@ import com.idbarcodesolutions.mainactivity.activities.MainActivity;
 import com.idbarcodesolutions.mainactivity.adapters.UserAdapter;
 import com.idbarcodesolutions.mainactivity.models.Store;
 import com.idbarcodesolutions.mainactivity.models.User;
-import com.idbarcodesolutions.mainactivity.models.UserRight;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -91,7 +90,7 @@ public class UserListFragment extends Fragment implements AdapterView.OnItemSele
                 message = "No store assigned.";
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             builder.setTitle(username)
                     .setMessage("Store: " + message)
@@ -112,7 +111,20 @@ public class UserListFragment extends Fragment implements AdapterView.OnItemSele
 
             AlertDialog dialog = builder.create();
 
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    if (currentUser.getRight() != User.ADMIN && currentUser.getUserID() == user.getUserID()) {
+                        ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);
+                    } else {
+                        ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(true);
+                    }
+                }
+            });
+
             dialog.show();
+
+
         }
     }
 
@@ -165,7 +177,7 @@ public class UserListFragment extends Fragment implements AdapterView.OnItemSele
         switch (item.getItemId()) {
             case R.id.addItemUserListMenu:
                 // TODO: Call Add User Dialog
-                if (currentUser.getRight().getId_right() == User.ADMIN) {
+                if (currentUser.getRight() == User.ADMIN) {
                     openAddUserDialog();
                 } else {
                     Toast.makeText(context, "You don't have permission to add users.", Toast.LENGTH_SHORT).show();
@@ -218,12 +230,10 @@ public class UserListFragment extends Fragment implements AdapterView.OnItemSele
                                     Toast.makeText(context, "Exists", Toast.LENGTH_SHORT).show();
                                 } else {
                                     if (right.equals("Administrator")) {
-                                        user = new User(username, password);
-                                        user.setRight(new UserRight(user.getUserID(), User.ADMIN));
+                                        user = new User(username, password, User.ADMIN);
                                         saveOrUpdate(user);
                                     } else if (right.equals("User")) {
-                                        user = new User(username, password);
-                                        user.setRight(new UserRight(user.getUserID(), User.USER));
+                                        user = new User(username, password, User.USER);
                                         saveOrUpdate(user);
                                     }
                                 }

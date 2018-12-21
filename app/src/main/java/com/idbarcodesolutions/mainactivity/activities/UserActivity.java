@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.idbarcodesolutions.mainactivity.R;
 import com.idbarcodesolutions.mainactivity.adapters.UserAdapter;
 import com.idbarcodesolutions.mainactivity.models.User;
-import com.idbarcodesolutions.mainactivity.models.UserRight;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -74,9 +73,7 @@ public class UserActivity extends AppCompatActivity {
                 String password = editTextPassword.getText().toString();
                 if (username.length() >= USERNAME_MIN_LENGTH) {
                     if (password.length() >= PASSWORD_MIN_LENGTH) {
-                        User user = new User(username, password);
-                        UserRight userRight = new UserRight(user.getUserID(), User.USER);
-                        user.setRight(userRight);
+                        User user = new User(username, password, User.USER);
                         saveUser(user);
                         Toast.makeText(UserActivity.this, "User created", Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(UserActivity.this, MainActivity.class);

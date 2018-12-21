@@ -1,9 +1,11 @@
 package com.idbarcodesolutions.mainactivity.models;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class UserRight extends RealmObject {
+public class UserRight extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id_user;
